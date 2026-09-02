@@ -1,0 +1,5 @@
+Today learn about linux commands and how to connect and access it.
+Learned about jump server and bastion host and how industry use to access other private server.
+Creation of EC2 instance and which instance_type and security setting need to select and other default setting and generate security key.
+Connecting local to EC2 instance via SSH key.
+Ports and range of ports 0-1023 are well known, 1024-49151 are registered ports and dynamic/private - 49152-65535
