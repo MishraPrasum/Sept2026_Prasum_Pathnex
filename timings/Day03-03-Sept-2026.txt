@@ -1,0 +1,17 @@
+Today i leared about Linux file permission chmod and how to read & identify user, grp, other.
+We check sudo cmd and its power and how to change permission of root user.
+Soft link - It is kind of shortcut file linked to other file, if original file is deleted, rest file will not work.
+Hard link - It is same as soft link, if main file is deleted but still you can access sub files.
+Chown - to change owner of folder/file.
+Few list cmd with flags:
+ls -lh    
+ls -tlh
+ls -tla   
+ls -tlah
+ls -lahtS
+
+how to make hiddent file? - put '.' in front of file, example: touch .pathnex
+Editor cmd: to save file use esc+:wq , :q! , esc+u (undo) , esc+dd (to delete line)
+Head - to list first 10 lines from file ex. head -15 test.txt
+tail - to list bottom lines from file ex. tail -15 test.txt. To see live log into file ex. tail -f 
+
