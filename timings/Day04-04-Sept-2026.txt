@@ -1,0 +1,36 @@
+Today we covered the following topics: 
+1. Today, instead of creating Linux from the AWS Console, we decided to create it using Terraform.  
+
+2. How to connect to EC2 using aws configure (with folder location) and IDP providers 
+	- - aws configure 
+	- ~/.aws/credentials 
+	- IAM user > Access key > CLI > access & secret key
+
+3. Absolute - specifices the complete location of a file/dir starting from the root directory(/)
+   Relative Path - specifies the location of file/dir relative to your current working directory  
+
+4. Find (with flags to find/search files/dir)
+	- find - find / -type f -printf '%s %p\n' 2>/dev/null | sort -nr | head -10
+  
+5. sed vs awk  & its interview question  
+	- interview question:
+	  replace old name to new :
+	  sed -i 's/old/new/g' filename.txt 
+
+6. chgrp - change group ownership  
+   umask - to set/change default permission for user, grp, other (To fetch or take away the permission)
+      	 - default umask value is 022  
+
+7. tar, gzip, zip  
+
+8. PS, Top, du -h, df -h , kill, pkill, pgrep  
+	- top - load average 1min, 5min, 15min 
+	- CPU can be used more than 100% ? Yes
+	- CPU Can 300% ? Yes, is it harmful ? - depends how much core is available if 3 core then 75% is used.
+	- If 16 core then 800/1000% not harmful
+	- 1 core = 100% 
+	- To check RAM = free -h
+
+9. History cmd and its location.
+	- history cmd - history stored in /root/.bash_history (if its inside root)
+	  /home/ec2-user/.bash_history
