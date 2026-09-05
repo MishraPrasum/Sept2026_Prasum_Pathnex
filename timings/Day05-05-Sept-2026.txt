@@ -1,0 +1,26 @@
+1. Tried to login with different user to EC2
+	- We saw how to login using root user
+	- /etc/ssh/sshd_config  --> PermitRootLogin prohibit-password
+
+2. SSH - private & public key
+ 	- how to login with password less
+
+3. Telnet - To check network & port connection 
+
+4. Useradd/passwd
+
+5. Mount/Umount - cp vs rsync and path of mount /etc/fstab 
+
+6. lsblk & growpart if we want to increase the storage size
+
+7. grep & its flag -i, -v 
+
+8. wget & curl cmd 
+
+9. export $Pathnex - $ variable cmd and how to store it & alias cmd
+
+10. ./ - To run bash cmd or #!/bin/bash
+
+11. Process : Zombie, Orphan and Dameonset 
+
+12. We also covered interview questions.
