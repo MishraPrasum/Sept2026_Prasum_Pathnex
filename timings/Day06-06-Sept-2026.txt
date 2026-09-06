@@ -1,0 +1,24 @@
+Today we leared about git and its core understanding.
+We covered and saw practical cmd of :
+1. git clone/git pull
+2. git checkout -b pathnex
+3. git add .
+5. git commit -m "Ticket: 1234 Change tab of submit"
+6. git push
+7. git merge
+8. git branch -d pathnex
+9. git push origin --delete pathnex
+10. git fetch 
+11. git init
+
+We tried to understand .git folder/file and how to read. 
+
+Fork cmd 
+
+We saw difference btw untrack -> tracking -> Staged -> commit -> Push to cloud
+
+git stash - to store work for temporary work. 
+git pop or its 'id' if want 3rd change or else first one will come out 
+
+At the end we have covered interview questions. 
+
