@@ -1,0 +1,35 @@
+Hierarchy
+GCP - Folder structure 
+AWS - Org -> Org unit -> AWS Account -> Resource
+
+IAM vs SCP in AWS
+IAM - To grant permissions
+SCP - To control/restrictions of permissions
+
+
+Session Manager -  Secure shell access to EC2 instance without SSH/RDP. 
+		-  Its agent run on ec2 server which do task inside server.
+
+Route 53 - DNS 
+	  - what are different Record type?
+	  - NS name server for a hosted server
+	  - Routing policy
+	  - Weighted policy
+Common Tags - Team, project, application, environment, Owner
+
+CloudTrail - keep records of each & every action on cloud 
+
+CloudWatch - To continuously watch/monitor system 
+
+Auto Scaling 
+
+Lambda - Is a serverless service, used to do particular task on-demands.
+	- Event based task 
+	- maximum execution time is 15 mins
+	- default is 3 seconds
+	- Lamdba function & trigger event
+
+
+AWS Shield - To protect aws services/application
+	   - DDos (distributed denial-of-Service) attack 
+	   - where we will attach? In front public facing before hitting website
