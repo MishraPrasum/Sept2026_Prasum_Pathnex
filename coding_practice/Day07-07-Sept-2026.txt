@@ -1,0 +1,134 @@
+Day 07 - Speeing typing 
+
+##  Ansible task - Install nginx on pathnex server
+
+---
+- name: Install & Enable Nginx on Pathnex server
+  hosts: all 
+  become: yes
+
+  tasks:
+	- name: Install nginx
+	  yum:
+		name: nginx
+		state: present
+
+	- name: Enable nginx
+	  service:
+		name: nginx
+		state: started
+		enabled: yes
+
+
+
+
+## Terraform - Create EC2 instance with m5.large 
+
+provider "aws" {
+	region = "ap-south-1"
+}
+
+resource "aws_instance" "PathnexEC2" {
+	ami = "ami-rybnedjb1234j90"
+	instance_type = "m5.large"
+
+	tags = {
+		name = "Pathnex-EC2"
+	}
+}
+
+
+
+
+
+## Kubernetes - Deployment with 2 replicas 
+
+apiversion: v1
+kind: Deployment
+metadata:
+	name: pathnex-deployment
+	namespace: global 
+spec:
+	replicas: 2
+	selector:
+	    matchlabels:
+		app: pathnex-app
+	template:
+	   metadata:
+		labels:
+		   app: pathnex-app
+	   spec:
+		containers:
+		    - name: app
+		      image: nginx:latest
+		      ports:
+			- containerport: 80
+
+
+
+
+## Shell script to print date+uptime
+
+#!/bin/bash
+date
+uptime
+
+
+
+## Parameterized Builds
+
+##  Jenkins Pipeline — Parameterized
+You will learn how to **create parameterized builds in Jenkins**.
+
+
+pipeline {
+	agent any
+	parameters {
+		string(name: 'Environment', defaultValue: 'dev', description: 'Deployment Environment')
+	}
+	environment {
+		Institue_Name = "Pathnex"
+	}
+
+	stages {
+	    stage('Checkout') {
+		steps {
+			git url: 'https://github.com/Pathnex/sample-java-app.git'
+		      }
+	  }
+	   stage('Deploy') {
+		steps {
+			sh 'echo "Deploying to $Environment by $Institue_Name"'
+
+		     }
+	 }
+    }
+}
+
+
+
+
+
+## GitLab CI — Parameterized via Variables
+
+You will learn how to **use variables to parameterize GitLab jobs**.
+
+
+stages:
+   - deploy
+
+varibales:
+    Institute_Name: "Pathnex"
+    Environment: "dev"
+
+deploy:
+    stage: deploy
+    image: alpine:latest
+    script:
+	echo "Deploying to $Environment by $Institute_Name"
+
+
+
+
+
+

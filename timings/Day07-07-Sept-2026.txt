@@ -1,0 +1,25 @@
+1. Diff btw on-prem vs Cloud server
+	- In cloud, we get internet public IP. If it is accessible via internet then it is cloud.
+	- In on-prem, It doesn't have internet public ip. 
+
+2. AWS vs Azure vs GCP - And On what basis you choose your cloud provider
+
+3. Control Tower - Automatically set up and manages a secure aws environment create Landing zone.
+
+4. EC2 - its pay model - on-demand, reserved, spot instance 
+       - desired, minimum, maximum
+
+5. IAM - Authentication and Authorization 
+
+6. S3 - we saw bucket policy and how to read and meaning of it and how to create policy
+	arn - amazon resource name 
+	effect
+	Action 
+	Resource
+
+
+7. Nat gateway vs internet gateway 
+   public vs private subnet 
+   In private subnet route table it will have NAT gateway and in public subnet route table you will find internet        	gateway
+
+8. S3 bucket - Versioning control and Lifecycle policie  
