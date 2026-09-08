@@ -1,0 +1,156 @@
+Day 08 - Varibales, VPC, Probes, Loops
+
+
+## Ansible - Install packages using varibales
+
+- name: Install packages for pathnex using varibales 
+  hosts: all
+  become: yes
+
+  vars:
+	pathnex_packages:
+		- tree
+		- unzip
+		- vim
+
+  tasks:
+	- name: Install required packages 
+	  yum:
+		name: "{{ pathnex_packages }}"
+		state: present
+
+
+
+
+
+## Terraform - Create VPC + Subnet 
+
+provider "aws" {
+	region = "ap-south-1"
+}
+
+resource "aws_vpc" "pathnexvpc" {
+	cidr_block = "10.10.0.0/16"
+
+	tags = {
+		Name = "Pathnex-VPC"
+}
+}
+
+resource "aws_subnet" "PathnexSubnet" {
+	vpc_id = aws_vpc.pathnexvpc.id
+	cidr_block = "10.10.1.0/24"
+	map_public_ip_on_launch = true
+
+	tags = {
+	    name = "Pathnex-Subnet"
+}
+}
+
+
+
+## Kubernetes - Add Liveness & Readiness probes
+
+apiversion: v1
+kind: pod
+metadata:
+	name: pathnex-probe-pod
+spec:
+   containers:
+	- name: web
+	  image: nginx
+	  livenessProbe:
+		httpGet:
+		   path: /
+		   port: 80
+		initalDelaySeconds: 5
+	  readinessProbe:
+	        httpGet:
+		   path: /
+		   port: 80
+		initalDelaySeconds: 3
+
+
+
+## Shell Script - loop through List
+
+#!/bin/bash 
+
+for item in pathnex devops training; do
+	echo "Item: $Item"
+done
+
+
+
+# Conditional Stages 
+
+## Jenkins Pipeline — Conditional Execution
+You will learn how to **run stages based on branch or parameter conditions**.
+
+pipeline {
+	agent any
+	parameters {
+		string(name: 'Environment', defaultvalue: 'Dev', description: 'Development Environment')
+	}
+	environment {
+		INSTITUTE_NAME = "Pathnex"
+	}
+	stages {
+		stage('Checkout') {
+			steps {
+				git branch: 'main', url: 'https://github.com/Pathnex/sample-java-app.git'
+			}
+		}
+
+		stage('Build') {
+			when {
+			     branch 'main'
+			}
+		}
+		stage('Deploy') {
+			when {
+				expression { params.Environment == 'dev' }
+			}
+			steps {
+				sh 'echo "Deploying to $ENVIRONMENT by $INSTITUTE_NAME"'"'
+			}
+		}
+
+	}
+}
+
+
+
+
+##  GitLab CI — Conditional Jobs
+You will learn how to **run jobs based on variables or branches**.
+
+
+stages:
+   - build
+   - deploy
+
+build:
+	stage: build
+	image: maven:3.8.1-jdk-17
+	script:
+		- git clone https://github.com/Pathnex/sample-java-app.git
+		- cd sample-java-app
+		- mvn clean compile
+	only:
+		- main
+
+deploy:
+	stage: deploy
+	image: alpine:latest
+	script:
+		- "Deploying to $CI_ENVIRONMENT_NAME by Pathnex"
+	only:
+		varibales:
+			- $CI_ENVIRONMENT_NAME == "dev"
+
+
+
+
+
+
