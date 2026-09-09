@@ -1,0 +1,66 @@
+-------------------------------------------------------------
+09/09/2026
+------------------------------------------------------------
+
+Network layer - There is 7 layer
+1. Physical
+2. Data link  
+3. Network 
+4. Transport
+5. Session
+6. Presentation 
+7. Application 
+
+NLB - Network Load Balancer
+    - It work on layer 4 i.e., transport layer 
+    - it use TCP & UDP or TLS traffic
+    - Mostly used in banking domain
+    - Routing based on IP & Port
+    - There is static IP
+    - performance is fast
+
+	VS 
+
+ALB - Application Load Balancer 
+    - It work on layer 7 i.e., application layer
+    - it use HTTP/HTTPS protocol 
+    - Routing based on path, hostname, headers
+    - No static IP 
+    - Performance very high
+
+
+AWS WAF (Web application Firewall)
+AWS GaurdDuty 
+AWS Inspector 
+AWS KMS (Key Management Service)
+	- Symmetric 
+	- 1 shared key
+	- same key used for encryption/decryption
+	- Fast
+	vs 
+	- Asymmetric
+	- 2 key public + private 
+	- different key 
+	- Slower
+
+
+System Manager - Automate operational tasks and manage infrastructure 
+
+DBs in AWS: 
+RTO (Recovery Time Objective) and RPO (Recovery Point Objective) - data you can afford to loose 
+Amazon RDS - Relational DB with Multi-AZ deployment
+Aurora - Relational DB & it is serverless service of aws
+DynamoDB - NoSQL 
+AWS DMS (Database Migration service)
+RedShift - Used as a Wearhouse for big data querying.
+
+AWS Batch 
+
+Blue/Green deployment
+Rolling update
+canary deployment   
+
+
+EC2
+- if key pair is lost, how you will troubleshoot. (key stored in EBS)
+	- create new instance and attach that EBS to this instance. 
