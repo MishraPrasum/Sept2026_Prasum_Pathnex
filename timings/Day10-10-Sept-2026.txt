@@ -1,0 +1,8 @@
+Docker use kernel of host/operating system vs In VM, each have its own kernel.
+Docker carry its dependency with it.
+Linux > Window, if Windows's kernel then Linux can work but if Linux's kernel then window will not work.
+VM vs Containerization
+DockerFile
+COPY vs RUN vs CMD vs ENTRYPoint
+Docker Daemon (containerd) , Docker cli
+Docker compose for multipe container
