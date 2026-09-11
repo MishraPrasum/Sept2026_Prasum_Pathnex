@@ -1,0 +1,174 @@
+Day 10 - Advanced Kubernetes, Jenkins, and GitLab CI
+
+## Ansible - Create Docker Containers for Multiple Applications
+
+- name: Setup Docker Containers for multiple apps 
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: pull web-app image
+	  docker_image:
+		name: pathnex-web-app
+		source: pull
+
+	- name: pull database app image
+	  docker_image:
+		name: pathnex-db-app
+		source: pull
+
+	- name: Run Web app container 
+	  docker_container:
+		name: web-app
+		image: pathnex-web-app
+		state: started
+		published_ports:
+		   - "8080:80"
+
+	- name: Run Database app container
+	  docker_container:
+		name: Database-app
+		image: pathnex-db-app
+		state: started
+		published_ports:
+			-  "3306:3306"
+
+
+
+# Terraform - VPC with private and public subnets
+
+resource "aws_vpc" "main" {
+	cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_subnet" "public" {
+	vpc_id = aws_vpc.main.id
+	cidr_block = "10.0.0.0/24"
+	availability_zone = "us-east-1a"
+	map_public_ip_on_launch = true
+}
+
+resource "aws_subnet" "private" {
+	vpc_id = aws_vpc.main.id
+	cidr_block = "10.0.2.0/24"
+	availability_zone = "us-east-1b"
+}
+
+
+
+
+## Kubernetes - Deployment statefulset
+
+apiversion: apps/v1
+kind: statefulset
+metadata:
+	name: pathnex-db
+spec:
+    servicename: "pathnex-db"
+    replicas: 3
+    selector:
+	matchlabels:
+	    app: pathnex-db
+    template:
+	metadata:
+	   labels:
+		app: pathnex-db
+
+     spec:
+	containers:
+	    - name: db
+	      image: mysql:5.7
+	      volumemount:
+		mountpath: /var/lib/mysql
+		name: mysql-storage
+   VolumeClaimTemplates:
+	- metadata:
+		name: mysql-storage
+   	spec:
+	  accessModes: ["ReadWriteOnce"]
+	  resources:
+	     requests:
+		storage: 1Gi
+
+
+# Jenkins - Build Deploy to Kubernetes
+
+pipeline {
+	agent any
+	envrionment {
+		image_name = 'pathnex-web-app'
+	}
+	stages {
+	    stage('Build Docker image') {
+		steps {
+		     script {
+			docker.build("${env.image_name}")
+			}	
+		}
+	}
+
+	   stage('Push Docker image') {
+		steps {
+		     script {	
+			docker.withRegistry('https://docker.io', 'docker-credentials') {
+				docker.image("${env.image_name"}).push('latest')
+				}
+
+			}	
+		}
+	}
+
+
+	  stage('Deploy to Kubernetes') {
+		steps {
+		     script {
+			sh 'kubectl apply -f deployment.yml'		
+			}			
+		}		
+
+	}
+
+}
+
+}
+
+
+
+
+# GitLab CI/CD - Build, push, and deploy
+
+stages:
+	- build
+	- push
+	- deploy
+
+build:
+	stage: build
+	script:
+		- docker build -t pathnex-web-app .
+
+push:
+	stage: push
+	script:
+	        - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+		- docker push pathnex-web-app
+
+deploy:
+	stage: deploy
+	script:
+		- kubctl apply -f kubernetes/deployment.yaml
+
+
+
+# Docker 
+# Working Directory and COPY
+
+FROM ubuntu:22.04
+WORKDIR /opt/pathnex/devops-project
+COPY . /opt/pathnex/devops-project/
+CMD ["ls", "-l", "/opt/pathnex/devops-project"]
+
+
+# Real Path
+/opt/pathnex/devops-project
+
