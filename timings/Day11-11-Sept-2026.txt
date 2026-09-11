@@ -1,0 +1,26 @@
+K8s understanding
+flow of docker -> image -> build -> container 
+
+K8s architecture:
+backup of etcd which is a database which hold culster's state data  It is a crucial component for 
+maintaining the desired state of the cluster, including all the cluster metadata. 
+etcd stores data about pods, deployments, services, and other resources. 
+Controller - To help and manage pods 's scheduling on worker node. it continuously watch.
+Controller Manager - It ensures that the current state of the system matches the desired state. it continuously watches for changes and take corrective actions. 
+	- Replicaset
+	- deployment
+	- Job controller
+	- Node controller
+
+
+
+kublet is inside worker node to communicate btw to control plane (api-server)
+kube-proxy is responsible for mainitaing network rules on each node. it allows pods to communicate with each other and 
+with service inside the cluster.   
+service is for outside network 
+Cloud-Controller if we are using Cloud Kubernetes service 
+
+EKS vs on-prem K8s 
+
+
+
