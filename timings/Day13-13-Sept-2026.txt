@@ -1,0 +1,9 @@
+Created EKS using Terraform code by changing required parameter.
+We troubleshoot pending pod ? we find out why it is pending and failed
+Then we went into Pod describe and its configuration
+we checked aws autoscaling and adds-on for node scaling is cluster autoscaler and Karpenter and Kedda another tool to watch on pods
+5. Identity agent
+6. Cluster AutoScaler Vs Karpenter  and HPA vs KEDA
+
+We also saw complete flow of EKS cluster from top to bottom.
+
