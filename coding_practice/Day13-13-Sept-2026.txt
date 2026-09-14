@@ -1,0 +1,107 @@
+Day 13 - Debug Day
+
+Fix the following broken files:
+
+## Ansible (broken)
+
+- name: Install Nginx on pathnex server
+  hosts: all
+  become: yes
+
+  tasks: 
+	- name: Install Nginx
+	  yum:
+	     name: nginx
+	     state: present
+
+
+
+## Terraform - Broken
+
+resource "aws_instance" "PathnexEC2" {
+	ami = "ami-ahdubsdn1246987"
+	instance_type = "c5.large"
+	
+	tags = {
+	    Name = "pathnex-EC2"
+	}
+}
+
+
+
+## Kubernetes (broken)
+
+apiversion: v1
+kind: deployment
+metadata:
+	name: pathnex-deployment
+spec:
+   replicas: 2
+   selector:
+      matchlabels:
+          app: pathnex-web-app
+
+   template:
+      metadata:
+	labels:
+	   app: pathnex-web-app
+
+     spec:
+	containers:
+	    - name: Nginx-app
+	      image: nginx:latest
+	      ports:
+		- containerport: 80 
+
+
+
+# Matrix build
+# Jenkins pipeline - Matrix Build
+You will learn how to **run the same build on multiple environments**.
+
+pipeline {
+	agent any
+	envrionment {
+	    INSTITUTE_NAME = "Pathnex"
+	}
+	matrix {
+	   axes {
+	      axis {
+		name 'JAVA_VERSION'
+		values '8', '11', '17'
+		}
+	   }
+
+	  stages {
+	      stage('Build') {
+		steps {
+		    sh "echo building with Java $JAVA_VERSION"
+		}	
+	    }
+	}	
+   }
+
+}
+
+
+
+## Gitlab CI - Matrix Jobs
+You will learn how to **run jobs across multiple environments using matrix**.
+
+Stages:
+    - build
+
+build:
+    stage: build
+    image: maven:3.8.1-jdk-17
+    parallel:
+	matrix:
+	   - JAVA_VERSION: ['8', '11', '17']    
+    script:
+	- echo "Building with Java $JAVA_VERSION"	
+
+
+
+
+
+
