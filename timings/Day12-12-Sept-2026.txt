@@ -1,0 +1,22 @@
+----------------------------------------------------------
+12/09/2026
+----------------------------------------------------------
+
+1. Custom creation of EKS
+	- Cluster IAM role & its permission checked
+	- K8s version 1.36 Standard is for 14 months supported by AWS($0.10 per hr) and s pray auto shifted to latest version
+	  Extended Version 14+12 months but price will be $0.60 per hr if you want to keep same version for next 26 month.
+	  Industry Standard practice: Dev 1.36, stage 1.35, prod 1.34
+	- VPC and 2 subnet for high availability, security group
+	- Cluster IPv4
+	- Metrics - Don't unable prometues and cloudwatch As it will charge
+2. We learened about Adds-on
+3. Created EKS cluster
+4. Node Group creation - We saw autoscaling and activity history and even tried to delete one node and check fi ASG is working or not as per desired state
+5. how to identify if we are in Kubernetes worker node EC2 ? check if kubelet is running or not and kube-proxy
+6. aws eks update-kubeconfig --region ap-south-1 --name Pathnex
+7. Namespace - it is group of resources and organizing resource, Isolating applications, supporting multi-team or multi-project environments
+8. Deployment -> ReplicaSet -> Pod
+9. DaemonSet - it makesure on each node atleast one pod is keep running
+10.EC2 created but not registered in EKS Node, so you need to check and allow SSH connection in SG of Kubernetes.
+11. According to node, if we need pod then we need DaemonSet.
