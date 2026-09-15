@@ -1,0 +1,7 @@
+1. Today, Re-visted the notes of Kubernetes.
+2. Watched videos of kubernetes troubleshootigs.
+3. Kubernetes prod issues.
+4. Writing practice of code.
+5. Git practice and git push.
+
+
