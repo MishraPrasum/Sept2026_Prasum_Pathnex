@@ -1,0 +1,15 @@
+Today, we have covered the following things: 
+1. Learned how the autoscaler helps avoid Pods getting stuck in Pending, 
+2. Created an EKS cluster and deployed Apache + StatefulSet controller, and practiced troubleshooting Pending Pods, PV/PVC, selector mismatches, and services in the wrong namespace.
+3. We created a service for the deployment file and added in the correct namespace. 
+4. We learned about types of services (ClusterIP default, NodePort, LoadBalancer)
+5. DaemonSet 
+6. Nginx vs Istio
+7. probes in kubernetes 
+
+Tomorrow we will see:
+what is Affinity - Pod Affinity and Anti Affinity 
+What is taint 
+
+ 
+
