@@ -1,0 +1,124 @@
+# Day 17 - Loops, ALB, Namespace, Top processes
+
+# Ansible - Create multiple users in loop
+
+---
+
+- name: Create multiple Pathnex Users
+  hosts: all
+  become: yes
+
+  vars:
+    users:	
+	- dev1
+	- dev2
+	- dev3
+
+  tasks:
+	- Create users
+	user:
+	   name: "{{ item }}"
+	   state: present
+	loop: "{{ users }}"
+
+
+
+
+# Terraform - Application Load Balancer 
+
+resource "aws_alb" "pathnexALB" {
+	name 			= "PathnexALB"
+	load_balancer_type	= "application"
+	subnets			= [aws.subnet.pathnexsubnet.id]			
+
+	tags = {
+	   Name = "Pathnex-ALB"
+	}
+}
+
+
+
+
+## Kubernetes - Namespace+Deployment
+
+apiversion: v1
+kind: Namespace
+metadata:
+	name: pathnex-namespace
+
+---
+apiversion: apps/v1
+kind: deployment
+metadata:
+	name: pathnex-deployment
+	namespace: pathnex-namepace
+spec:
+    replicas: 2
+    selector:
+	matchlabels:
+   	    app: pathnex
+    template:
+	metadata:
+	  labels:
+	     app: pathnex
+       spec:
+	 containers:
+	    - name: app
+	      image: nginx
+
+
+
+
+## Shell script - Top 5 memeory processes
+
+#!/bin/bash 
+
+ps aux --sort=-%mem | head -n 5 
+
+
+
+# Jenkins pipeline - Simulated deployment
+You will learn how to **simulate deployment to different environments**.
+
+pipeline {
+	agent any 
+	parameters {
+	    choice(name: 'ENVIRONMENT', choice: ['dev','stag', 'prod'], description: 'deployment Environment')
+	}
+	envrionment {
+	     INSTITUTE_NAME = "Pathnex"   
+	}
+	stages {
+	   stage('Deploy') {
+		steps {
+		   sh 'echo "Deployment $INSTITUTE_NAME application to $ENVIRONMENT"'
+		}
+	  }
+     }
+
+}
+
+
+
+## GitLab CI - Deployment Simulation
+You will learn how to **simulate deployment in GitLab CI using environment variable**.
+
+stages:
+   - deploy
+
+variables:
+  INSTITUTE_NAME: "Pathnex"
+  ENVIRONMENT: "staging"
+
+
+deploy:
+   stage: deploy
+   image: alpine:latest
+   script:
+	- echo "Deploying $INSTITUTE_NAME application to $ENVIRONMENT"
+
+
+
+
+
+

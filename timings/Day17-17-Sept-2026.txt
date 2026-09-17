@@ -1,0 +1,22 @@
+Today we leared about Helms in K8s.
+Helms is tool used in kubernetes to manage applications.
+It simplifies of deploying, configuring, and maintainig complex applications on K8s cluster.
+Helms is like a package manager for kubernetes.
+
+A helm charts is pre-confgirued package of kubenetes reousces like (deployment,service, config map)
+
+Key component in Helm:
+1. Helm client  - command line tool to interact with to manage charts and release applications.
+2. helm charts - a collection of files that describe a k8s applications, including configuration and dependencies.
+3. helm repository - a location where helm charts are stored and shared.
+4. helm release - a specific instance of helm char that deployed on k8s cluster. 
+
+Why to use helm?
+1. simplifies deployment
+2. version control 
+3. configuration management
+4. resuable and shareable
+
+Tomorrow we will see AgroCD  
+
+
