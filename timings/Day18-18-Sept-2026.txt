@@ -1,0 +1,27 @@
+Today we saw how ArgoCD keeps the Kubernetes cluster in sync with the Git repo using auto-sync, 
+and how easily it handles automated deployments and rollbacks.
+We also used an Nginx deployment for live troubleshooting and understood how GitOps works in practice.
+
+Git repo act as source of truth for infrastruture and application definitions.
+
+AgroCD Architecture:
+1. API server
+2. Repository server
+3. application controller 
+4. dex server
+
+
+Following cmd to install AgroCD:
+Pre-requisites:
+- kubernetes cluster
+- kubectl configured
+
+1. create namespace - kubectl create namespace argocd
+2. kubectl apply -n argocd -f <gitrepo install path>
+3. Once installation is done, check with kubectl get deployment -n argocd
+
+ArgoCD CLI Cmd:
+- argocd app list
+- argocd app sync
+- argocd app delete 
+
