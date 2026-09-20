@@ -1,0 +1,17 @@
+Today we have covered lot of topics on terraform 
+1. Terraform state file management and backend (S3+DynamoDB)
+2. Terraform drift
+3. Terraform import 
+4. Terraform modules 
+5. Terraform workspace/terragrunt
+6. Terraform lifecycle 
+7. Terraform state list/show
+8. Terraform state backup 
+9. Providers and Provisioning
+
+
+Also, we covered interview questions. 
+
+In Next class, we will see Ansible.
+
+

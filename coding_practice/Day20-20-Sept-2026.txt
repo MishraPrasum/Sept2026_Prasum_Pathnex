@@ -1,0 +1,101 @@
+# Day 20 - Debug Day
+
+# Ansible - Broken 
+
+---
+
+- name: Install Stuff
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: Install
+  	  yum:
+	    name: httpd
+	    state: present 
+
+
+## Terraform - Broken
+
+resource "aws_instance" "PathnexServer" {
+	ami = ami-hudnufnsdn124
+	instance_type = c6i.8xlarge
+
+	tags = {
+	   Name = "Pathnex-EC2"
+	}
+}
+
+
+
+# Kubernetes - Broken
+
+apiversion: apps/v1
+kind: Deployment
+metadata:
+	name: pathnex-web-app
+spec:
+    replicas: 3
+    selector:
+       matchlabels:
+	  app: pathnex-web-app
+    template:
+	metadata:
+	  labels:
+	    app: pathnex-web-app
+      spec:
+	containers:
+	   - name: pathnex-web
+	     image: pathnex-web-app 
+	     ports:
+	       - containerport: 80
+
+
+# Secrets & Credentials
+# Jenkins pipeline - Using Credentials 
+You will learn how to **use credentials securely in Jenkins**.
+
+pipeline {
+      agent any
+      environment {
+        INSTITUTE_NAME = "Pathnex"
+    }
+      stages {
+	stage('Checkout') {
+	   steps {
+		git url: 'https://github.com/Pathnex/sample-java-app.git'
+		}
+	   }
+	stage('Use Secret') {
+	   steps {
+		withCredentials([string(credentialsId: 'PATHNEX_API_KEY', Varibale: 'API_KEY')]) {
+		    sh 'echo "using secret $API_KEY for $INSTITUE_NAME"'
+		}
+	   }
+ 	}
+    }
+}
+
+
+
+# GITLAB CI - Using CI/CD varibales
+You will learn how to **use GitLab CI variables securely**.
+
+stages:
+   - build
+
+varibales:
+  INSTITUTE_NAME: "Pathnex"
+  API_KEY: "PLACEHOLDER_SECRET"
+
+build:
+     stage: build
+     image: alpine:latest
+     script:
+	- echo "using secret $API_KEY for $INSTITUE_NAME"
+
+
+
+
+
+
