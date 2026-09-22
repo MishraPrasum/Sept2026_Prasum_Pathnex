@@ -1,0 +1,130 @@
+Day 22 - Handlers, Security Group, DaemonSet, Disk Monitor
+
+# Ansible - Use Handler on config change 
+
+---
+
+- name: Configure Nginx for pathnex
+  hosts: all
+  become: yes
+
+  taska:
+	- name: Copy Nginx Config
+ 	  copy:
+	    dest: /etc/nginx/nginx.conf
+	    content: |
+		user nginx;
+		worker_processes auto;
+	  notify: Restart nginx
+
+  handlers:
+	- name: Restart Nginx
+  	  service:
+	     name: nginx
+	     state: restarted
+
+
+# Terraform - Security Group 
+
+resource "aws_security_group" "pathnexsg" {
+	name = "pathnex-sg"
+	vpc_id = aws_vpc.pathnexVPC.id
+
+	ingress {
+	   from_port = 80
+	   to_port   = 80
+	   protocol  = "tcp"
+	   cidr_block = ["0.0.0.0/0"]
+	}
+	tages = {
+	   Name = "Pathnex-SG"
+	}
+}
+
+
+
+## Kubernetes - DaemonSet 
+
+apiversion: apps/v1
+kind: DaemonSet
+metadata:
+	name: pathnex-daemon
+spec:
+  selector:
+     matchlabels:
+	app: ds
+  template:
+     metadata:
+	labels:
+	   app: ds
+
+    spec:
+      - containers:
+	   - name: monitor 
+	     image: busybox
+	     command: ["sh", "-c", "while true; do echo pathnex node monitor; sleep 20; done"]
+
+
+
+# Shell Script - Montior Disk Usage 
+
+#!/bin/bash 
+
+USAGE=$(df-h / | tail -1 | awk '{print $5}')
+
+echo "Disk uage: $USAGE"
+
+
+
+# Advanced Triggers 
+# Jenkins pipeline - Trigger on Git Tag
+You will learn how to **trigger builds on Git tags** with realistic tags.
+
+pipeline {
+	agent any
+	environment {
+	   INSTITUE_NAME = "Pathnex"
+	   TEAM = "DevOps"
+	   ENV = "prod"
+	}
+	trigger {
+	   pollSCM('H/15 * * * *')
+	}
+	stages {
+	   stage('Checkout') {
+	     steps {
+		git url: 'https://github.com/Pathnex/sample-java-app.git', branch: 'main'
+		}
+	   }
+	   stage('Build') {
+		when {
+		   buildingTag()
+		}
+		steps {
+		   sh 'echo "Building $INSTITUTE_NAME app for $TEAM team in $ENV environment"'
+		}
+	   }
+      }
+} 
+
+
+
+
+## GitLab CI - Trigger on Tag
+You will learn how to **trigger CI jobs when a tag is pushed**.
+
+stages:
+  - build
+
+build:
+    stage: build
+    image: maven:3.8.1-jdk-17
+    script:
+	- echo "Building $INSTITUTE_NAME app for $TEAM team in $ENV environment"
+    only:
+      - tags
+
+
+
+
+
