@@ -1,0 +1,135 @@
+# Day 18 - Facts, variables, Affinity, Log Archiving
+
+## Ansible - Use Ansible Facts 
+
+---
+
+- name: Show system facts for pathnex
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: Print OS info
+	  debug:
+	     var: ansible_facts['os family']
+
+	- name: Print IP address
+ 	  debug:
+	     var: ansible_facts['default_ipv4']['address']
+
+
+
+## Terraform - Varibales, Outputs, tfvars
+
+# varibales.tf
+
+variable "Instance_type" {
+	default = "c6a12xlarge"
+}
+
+# main.tf
+
+resource "aws_instance" "pathnexserver" {
+	ami = "ami-0abcd1234abcd1234"
+	instance_type = var.instance_type
+}
+
+
+# Output.tf
+
+output "pathnex_ip" {
+      value = aws_instance.pathnexserver.public_ip
+}
+
+
+
+
+# Kubernetes - Node Affinity
+
+apiversion: v1
+kind: pod
+metadata:
+	name: pathnex-affinity
+spec:
+    affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+	nodeSelectorTerms:
+	   - matchExpression:
+		- key: disktype
+		  operator: In
+		  values:
+		    - ssd
+    containers:
+	- name: web
+	  image: nginx
+
+
+## Shell Script - Archice log files 
+
+#!/bin/bash 
+
+tar -czf /backup/pathnex-log-$(date +%f).tar.gz /var/log
+echo "log archived."
+
+
+
+# Jenkins pipeline - Rollback on failure
+You will learn how to **simulate rollback if deployment fails**.
+
+pipeline {
+	agent any 
+	environment {
+	    INSTITUTE_NAME = "Pathnex"
+	}
+	stages {
+	   stage('Deploy') {
+		steps {
+		   script {
+			try {
+			   sh 'echo "Deploying $INSTITUTE_NAME application.."'
+			   sh 'exit 1' //simulate failure 
+			} catch (Exception e) {
+			   echo "Deployment failed. Rolling back $INSTITUTE_NAME application..."			
+			}	
+		    }
+		}
+	   }
+     }
+}
+
+
+
+
+# GitLab CI - Rollback simulation
+You will learn how to **simulate rollback using after_script**.
+
+
+stages:
+   - deploy
+
+variables:
+   INSTITUTE_NAME: "Pathnex"
+
+deploy:
+   stage: deploy
+   image: alpine:latest
+   script:
+	- echo "Deploying $INSTITUTE_NAME application..."
+	- exit 1 
+   after_script:
+	- echo "Deployment failed. Rolling back $INSTITUTE_NAME application..."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
