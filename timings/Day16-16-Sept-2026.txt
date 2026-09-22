@@ -1,0 +1,12 @@
+Today, the following were covered and the practicals were done:
+1. Affinity and Anti-Affinity 
+    - Practically saw and implemented it with an example. 
+2. Pod Affinity 
+3. requiredDuringSchedulingIgnoredDuringExecution  vs preferredDuringSchedulingIgnoredDuringExecution
+4. Taint and Toleration 
+5. Probes: Liveness vs Readiness vs Startup
+
+Leared about Helms chart and how it helps to get/install charts from helms package manager.
+
+
+
