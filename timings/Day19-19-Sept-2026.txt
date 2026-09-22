@@ -1,0 +1,20 @@
+Today i leared about Terraform which is Iaac (Infrastruture as a code) tool.
+Terraform block
+Terraform state file 
+Terraform version
+TF commands:
+- terraform init
+- terraform fmt
+- terraform validate
+- terraform plan
+- terraform apply -auto-approve
+- terraform destroy
+- tfswtich - used for version upgrade
+- terraform --version
+
+- Leared about Terraform state file and local.hcl file 
+- state locking 
+- Terraform module 
+
+
+
