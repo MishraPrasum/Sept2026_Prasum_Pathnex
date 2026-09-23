@@ -1,0 +1,10 @@
+Today i leared about CI/CD which is part of SDLC and a practice for delivering software at best practice,reliable,scalable and fast.
+
+CI - Continuous Integration, The practice of automatically integrating code into a shared repository multiple times a day. It help to detect issues early by frequently testing the software.
+
+CD - Continously Delivery/Deployment : In Delivery, The code is build and ready for review and manaull approval for deployment.  In Deployment, The build artifact is ready to deploy on specified server automatically once all tests are passed.
+
+CI/CD - Allows to build, test and deploy code automatically through pipelines. 
+
+There are different stages defined in pipeline, A sequence of stages are executed in order. 
+We can run parallel stages as well which are not dependent on other stage.
