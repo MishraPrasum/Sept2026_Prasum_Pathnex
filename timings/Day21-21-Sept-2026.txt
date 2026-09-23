@@ -1,0 +1,6 @@
+Today I watched last month terraform video and tried to compare with this month video.
+Leared about Terraform grunt for multi environment and module repo management.
+Did Coding practice for different terraform code.
+Compile all terraform code of basic resources creation in one file for quick revision.
+
+

@@ -1,0 +1,44 @@
+# Ansible:-
+
+Ansible vs Terraform:
+
+- Ansible will able be able to create infra same as Terraform but it is not much efficient to create come to Terraform.
+- With Terraform you can do configuration but is not that much efficient to create thats why we are not using. 
+- Ansible is agentless - Other server only need SSH port (22) opened. If linux then SSH is OK. 
+- In window we need WinRM for connecting to window server. WinRAM port no. 5985 HTTP and 5986 HTTPS
+
+-------------------------------------------
+
+Ansible is Push based 
+Puppet & Chef is Pull based configuration tool. 
+idempotent - an operation can be applied multiple times without changing the result beyond the inital application.
+
+Component in Ansible:
+1. Playbook - step to implement a task 
+2. Inventory - list of servers to implement
+3. Modules - pre-defined modules 
+4. Roles 
+
+Core Components:
+1. Control Node
+2. Managed Node
+3. Playbook 
+
+To not change playbook everytime, keep in group/grouping of server inside inventory 
+
+excute playbook:
+ansible-playbook -i inventory_file webserver.yml
+
+Python is imp for ansible to work
+	- will create virtual environment, feature of python python3 -m venv pathnex.
+
+gather_facts - to gather system information
+ 
+Ansible vault - To manage ansible secret 
+
+dynamic vs static inventory - static mean updating manually and Dynamic create automatically by host.
+
+
+
+
+
