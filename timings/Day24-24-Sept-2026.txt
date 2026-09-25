@@ -1,0 +1,11 @@
+Today, I watched last month (August) CI/CD video on youtube.
+I saw how we created CI/CD pipeline using terraform, Ansible and Jenkins.
+We created two EC2 instance using terraform, one is used as jump server and another to jenkins intall jenkins.
+We connected to jump server and installed git to clone repo of CI/CD.
+We saw and run ansible code which defined maven, JDK, jenkins, and docker installation. 
+Jenkins was accesible via public ip with jenkins default port 80:80. 
+Copied the declarative script into jenkins UI in new pipeline scipt. 
+Resolved issues found on console log. 
+
+
+
