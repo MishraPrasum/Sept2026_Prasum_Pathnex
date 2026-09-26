@@ -1,0 +1,16 @@
+# Day-26
+
+Today we leared about monitoring.
+ELK - ElasticSearch, logstash, Kibana 
+It is a set of tool and open-source for searching, analyzing and visualizing large volume of data in real-time.
+Parsing logs - rocess of analyzing and extracting meaningful information from log files.
+Data Ingestion
+Data Processing
+Data Storage & Indexing
+Data Visualization
+
+Also, we created our own custom visulaization dashboard.
+
+
+
+
