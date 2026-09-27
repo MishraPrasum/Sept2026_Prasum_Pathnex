@@ -1,0 +1,9 @@
+# Day-25
+
+Today we leared about Datadog which is a monitoring and observability tool.
+What are pre-requisites required : Datadog account, access to system and install agent and Datadog API key
+We created EKS cluster using terraform and install datadog using Helm charts and checked of all required pods are started and running or not.
+Integration with other tools like with AWS, Azure, GCP, Kubernetes, Docker etc
+And creating dashboard using terraform datadog provider.
+
+
