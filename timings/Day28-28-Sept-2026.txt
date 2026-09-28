@@ -1,0 +1,16 @@
+# Day-28 
+
+Today we learned about SSL/TLS certificate.
+1. Why SSL/TLS required - For secure access btw web server and browser, and ensuring secure communication.
+2. HTTP vs HTTPS 
+3. Generating key, CSR and attaching to website.
+4. Self-Signed SSL Certificate 
+
+Generate key - openssl genrsa -out pathnex-sept.key 2048
+Create CSR - openssl req -new -key pathnex-sept.key -out pathnex-sept.csr
+Create certificate - openssl x509 -req -days 365 -in pathnex-sept.csr -signkey pathnex-sept.key -out pathnex-sept.cert
+Configure Nginx - Point to .crt and .key 
+
+
+Tomorrow, We will cover SRE or DevSecOps
+
