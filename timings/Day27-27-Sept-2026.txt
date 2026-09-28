@@ -1,0 +1,22 @@
+# Day-27 
+
+Today we leared about Kafka.
+1. First we saw kafka data flow and architecture
+2. Producers & Consumers 
+3. Topics & Brokers 
+4. Partition
+
+Zookeeper vs KRaft (since 2.8v)
+
+Data Flow:
+Producer to broker
+broker to Other broker (Replication)
+consumer to broker
+offset tracking
+
+And we have covered kafka interview questions 
+
+Tomorrow we will see DevSecOps Or ceriticate update.
+
+
+
