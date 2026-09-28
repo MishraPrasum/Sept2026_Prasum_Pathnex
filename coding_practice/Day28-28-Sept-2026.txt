@@ -1,0 +1,96 @@
+# Day-28 - Debug Day 
+
+Fix these intentionally broken files:
+
+# Ansible - Broken
+
+---
+- name: Install Nginx on pathnex server
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: Install Nginx
+	  yum:
+	    name: nginx
+	    state: present 
+	   
+
+
+# Terraform - Broken
+
+resource "aws_S3_Bucket" "PathnexBucket" {
+	bucket = "Pathnex-Bucket"
+	acl    = "public-read"
+
+}
+
+
+
+# Kubernetes - Broken
+
+apiversion: v1
+kind: Pod
+metadata:
+	name: pathnex-pod
+spec:
+   containers:
+	- name: pathnex-app
+	  image: nginx
+	  ports:
+	    - containrport: 80
+
+
+
+## Jenkins Pipeline — Automatic Rollback 
+
+pipeline {
+	angent any
+	environment {
+	   INSTITUTE_NAME = "Pathnex"
+	   TEAM 	  = "DevOps"
+	   ENV		  = "Prod"
+	}
+	stages {
+	  stage('Deploy') {
+	     steps {
+		script {
+		    try {
+			sh 'echo "Deploying $INSTITUTE_NAME app in $ENV for $TEAM"'	
+			sh 'exit 1' //simulate failure	
+			} catch (Exception e) {
+			    echo "Deployment failed. Rolling back $INSTITUTE_NAME app in $ENV"
+			}
+		}
+	   }
+        }
+    }
+
+}
+
+
+
+
+# GitLab CI - Rollback Strategy 
+You will learn how to **simulate rollback in GitLab CI with tags**.
+
+stages:
+  - deploy
+
+variables:
+  INSTITUTE_NAME: "Pathnex"
+  TEAM = "DevOps"
+  ENV = "prod"
+
+deploy:
+    stage: deploy
+    image: alpine:latest
+    script:
+	- echo "Deploying $INSTITUTE_NAME app in $ENV for $TEAM"
+	- exit 1
+    after_script:
+	- echo "Deployment failed. Rolling back $INSTITUTE_NAME app in $ENV"
+
+
+
+
