@@ -1,0 +1,16 @@
+# Day-29 
+
+This session was all about the SRE role and responsibilities
+Learned about key components: SLA vs. SLO vs. SLI
+Incident management / Change Management 
+Monitoring and Observability
+Error Budget
+
+Tools used by SREs:
+Monitoring: Prometheus, Grafana, DataDog
+Logging: ELK Stack, Fluentd, Loki
+CI/CD: Jenkins, GitLab CI, Chef, Puppet
+Incident Response: ServiceNow, PagerDuty
+
+Tomorrow we will cover DevSecOps 
+
