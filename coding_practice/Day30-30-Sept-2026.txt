@@ -1,0 +1,201 @@
+# Day-30 - Speed Typing 
+
+# Ansible 
+- Create user "pathnex-admin"
+- Add SSH key
+- Set shell to /bin/bash
+
+- name: Create pathnex-admin user
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: Create pathnex-admin user
+	  user:
+	    name: pathnex-admin
+	    shell: /bin/bash
+	    create_home: yes
+	    state: present
+	- name: Configure SSH key
+	  authorized_key:
+	      user: pathnex-admin
+	      key: "ssh-ed25519 AAAAC3"
+	      state: present
+
+
+
+# Terraform 
+- Create EC2 with tag:
+     Project = "Pathnex-Training"
+
+resource "aws_instance" "pathnexEC2" {
+	ami = "ami-ydhd35617wnhs"
+	instance_type = "m5.2xlarge"
+	vpc_security_group_id = [aws_security_group.pathnexSG.id]
+	
+	tags = {
+	   Project = "Pathnex-Training"
+	}	
+}
+
+
+
+# Kubernetes:
+- Deployment (2 replicas)
+- Expose via ClusterIP
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name: pathnex-nginx
+spec:
+   replicas: 2
+   selector:
+     matchables:
+	app: pathnex-nginx
+   template:
+     metadata:
+       labels:
+	 app: pathnex-nginx
+     spec:
+	containers:
+	   - name: pathnex-nginx
+	     image: nginx:latest
+	     ports:
+	       - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+	name: pathnex-service
+spec:
+    type: ClusterIP
+    selector:
+	app: pathnex-nginx
+    ports:
+      - port: 80
+        targetPort: 80
+
+
+
+### Shell:
+- Menu with:
+  1) IP
+  2) Disk
+  3) Memory
+
+#!/bin/bash
+
+echo "$(hostname -I)"
+echo "$(df -h)"
+echo "$(free -h)"
+
+
+
+# Jenkins Pipeline
+You will learn to **automate all tasks in a Jenkins Pipeline** under real-world stages:
+
+pipeline {
+    agent any
+
+    environment {
+        INSTITUTE_NAME = "Pathnex"
+        TEAM = "DevOps"
+        ENV = "prod"
+        PROJECT = "Pathnex-Training"
+    }
+
+     stages {
+	stage('Infrastructure') {
+            steps {
+                echo "Creating EC2 infrastructure on $ENV for $TEAM and $PROJECT"
+
+                sh '''
+                    cd terraform
+                    terraform init
+		    terraform fmt
+		    terraform validate
+		    terraform plan
+                    terraform apply -auto-approve
+                '''
+            }
+        }
+
+    stage('App Deployment') {
+            steps {
+                echo "Deploying application"
+                sh '''
+                    cd ansible
+                    ansible-playbook -i inventory user-setup.yml
+                '''
+
+                sh '''
+                    kubectl apply -f kubernetes/
+                '''
+            }
+        }
+
+    stage('Monitoring Checks') {
+            steps {
+                sh '''
+                    echo "IP Address:"
+                    hostname -I
+
+                    echo "Disk Usage:"
+                    df -h
+
+                    echo "Memory Usage:"
+                    free -h
+                '''
+            }
+        }
+    }
+}
+
+
+
+# GitLab CI
+You will learn to **combine all tasks in a GitLab CI pipeline**:
+
+stages:
+  - Infra
+  - app_deploy
+  - Monitor 
+
+varibales:
+    INSTITUTE_NAME = "Pathnex"
+    TEAM = "DevOps"
+    ENV = "prod"
+    PROJECT = "Pathnex-Training"
+
+Infra:
+    stage: Infra
+    script: 
+	- echo "Creating EC2 Infrastructure on $ENV for $TEAM and $PROJECT"
+	- git clone: https://github.com/terraform
+	- cd terraform
+	- terraform init 
+	- terraform fmt 
+	- terraform validate
+	- terraform plan
+	- terraform apply -auto-approve
+
+app_deploy:
+    stage: app_deploy
+    script:
+	- echo "App deployment $INSTITUTE_NAME on $ENV for $TEAM and $PROJECT"
+	- ansible-playbook -i inventory user-setup.yml
+	- echo "Ansible configuration succesfully applied"
+	- kubectl apply -f kubernetes/deployment.yaml
+
+monitoring:
+   stage: monitoring
+   script:
+	- echo "$(hostname -I)"\
+	- echo "$(df -h)"
+	- echo "$(free -h)"
+
+
+
+
+

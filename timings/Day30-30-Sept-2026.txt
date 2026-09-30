@@ -1,0 +1,7 @@
+# Day-30 
+
+Today we leared about DevSecOps
+1. Leared about different stages in pipeline and where security come in pipeline.
+2. SAST, SCA, Container Security, IaaC security, and DAST.
+3. tried practical on DevSecOps.
+
