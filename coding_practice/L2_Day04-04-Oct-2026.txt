@@ -1,0 +1,120 @@
+# L2_Day04 - Basic CI/CD Concepts with Jenkins & GitLab
+
+# jenkins pipeline - Basic CI pipeline
+
+pipeline {
+	agent any
+	stages {
+	  stage('Build') {
+	     steps {
+		sh 'mvn clean compile'
+		}
+	  }
+	  stage('Test') {
+	     steps {
+		sh 'mvn test'
+		}
+	  }
+	  stage('Deploy') {
+	    steps {
+		echo "deploying to pathnex server"
+		}		
+	   }
+       }
+}
+
+
+GitLab CI/CD - Basic pipeline
+
+stages:
+   - build
+   - test
+   - deploy
+
+
+build:
+   stage: build
+   script:
+	- echo "Building project"
+
+test:
+   stage: test
+   script:
+	- echo "Running tests"
+
+deploy:
+   stage: deploy
+   script:
+	- echo "Deploying application"
+
+
+
+# Ansible - Install and Configure Nginx
+
+- name: Install Nginx and Configure
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: Install nginx
+  	  yum:
+	     name: nginx
+	     state: present
+	- name: configure nginx
+	  template:
+	      src: nginx.conf.j2
+	      dest: /etc/nginx/nginx.conf
+	- name: start nginx service
+	  service:
+	      name: nginx
+	      state: started
+	      enabled: yes
+
+
+
+# Terraform - EC2 with security group
+
+resource "aws_security_group" "pathnexSG" {
+	name = "pathnex_security_group"
+	description = "Allow SSH and HTTP"
+
+	ingress {
+	   from_port = 22
+	   to_port = 22
+	   protocol = "tcp"
+	   cidr_block = ["0.0.0.0/0"]
+	}
+	ingress {
+	   from_port = 80
+	   to_port = 80
+	   protocol = "tcp"
+	   cidr_block = ["0.0.0.0/0"]
+	}
+	
+	egress {
+	   from_port = 0
+	   to_port = 0
+	   protocol = "-1"
+	   cidr_block = ["0.0.0.0/0"]
+	  }
+
+}
+
+
+
+# docker - apache container
+
+FROM ubuntu:22.04
+RUN apt update && apt install apache2 -y
+RUN echo "hello pathnex" > /var/www/html/index.html
+CMD ["apachectl", "-D", "FOREGROUND"]
+
+
+#bash real path
+/var/www/html
+
+
+
+
+
+
