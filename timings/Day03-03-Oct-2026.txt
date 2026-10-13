@@ -1,0 +1,12 @@
+# Day03 
+
+1. Today i gone through Datadog notes 
+2. Coverved ELK pdf notes
+4. I have gone through Kafka interview questions
+5. SRE pdf notes 
+
+
+Pending to cover Security tools, Ansible and CI/CD pipeline notes 
+I will also tr to watch videos 
+
+
