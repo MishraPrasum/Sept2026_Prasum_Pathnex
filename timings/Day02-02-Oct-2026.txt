@@ -1,0 +1,12 @@
+# Day02 
+
+1. Today i have revisited and covered all topic on kubernetes from PDF 
+2. Kubernetes interview questions from PDF
+3. Learned Helm notes
+4. Agro CD notes 
+5. Terraform Interview questions 
+6. Attended evening class and covered AWS notes.
+
+Tomorrow i have planned to cover Ansible, ELK, DataDog and Kafka interview questions.
+
+
