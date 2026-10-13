@@ -1,0 +1,11 @@
+# Day01
+
+1. Today i re-created AWS account.
+2. Completed Docker PDF file.
+3. Watched July month Docker video 
+4. Did hands-on on docker & container creation.
+5. Completed Interview questions.
+
+Tomorrow i will, try to complete watching AWS videos & notes in first half and second half i will try to start K8s.
+
+
