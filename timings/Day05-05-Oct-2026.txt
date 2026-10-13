@@ -1,0 +1,14 @@
+# Day05
+
+Completed July month SRE video and notes 
+Revisted Mock 1 questions.
+Learned about helm lifecycle and helm hook 
+VPC components 
+Handlers in Ansible 
+
+
+Tomorrow i will attend morning class as Oct batch Kubernetes class is going to start.
+So, for me it will be kind of revision.
+
+
+
