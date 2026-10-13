@@ -1,0 +1,9 @@
+# Oct Day 6 
+
+- Today morning i attended morning Kubernets Class 2 of Oct batch
+	- The EKS cluster dashboard in the AWS Console looks quite different compared to last month. The new graphical 
+           view makes it much easier to understand the cluster setup.
+	- Now EKS allow to manage control plane setting (Not to control it)
+	- Noted few interview questions.
+
+Today I will also doing EKS practical 
