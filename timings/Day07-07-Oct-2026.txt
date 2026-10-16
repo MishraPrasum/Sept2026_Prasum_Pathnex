@@ -1,0 +1,10 @@
+# Oct Day07 
+
+Today attended morning kubernetes class 
+Gone through interview questions
+Gave mock L1 and noted down questions.
+Did revision of interview questions from all topics 
+
+In Evening class, we discussed about Kafka and its interview questions.
+also we have discussed, DevSecOps documents and tools.
+
