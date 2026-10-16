@@ -1,0 +1,21 @@
+# Oct-Day08 
+
+1. - Joined Morning class, Today we learned about Helm package manager 
+   - Helm simplifies the process of deploying, configuring, maintaining applications on Kubernetes clusters.
+   - Key components : Helm Client, Helm Charts, Helm Repository, Helm Release
+   - kubectx - used for list cluster we have, and with kubectx <clusterName> we can swtich cluster.
+   - helm repo add, helm repo list, once downloaded on local, To get into your cluster do: helm install, helm upgrade.
+   - Charts - Have collection of files that describe kubernetes app, including configuration and dependencies
+   - Helm Release -  Is the installed chart and whenever we upgarde it and add in repo,it create revision of it.
+   
+   Charts:
+	- chart.yaml
+	- templates 
+	- values.yaml
+
+2. If you install CRD(Custom Resource Defination) it will not directly run and its pod will not visible. 
+   - Interview question: Worked on CRD - Yes, Istio crd
+
+3. Did kubernetes practical
+
+
