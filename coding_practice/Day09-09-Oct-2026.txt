@@ -1,0 +1,99 @@
+# Day09 - Templates, Internet Gateway, ConfiMap, CPU load
+
+# Ansible -  Use Jinja2 template
+
+- name: Deploy template for pathnex
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: copy template file
+	  template:
+	     src: pathnex.conf.j2
+	     dest: /etc/pathnex.conf
+
+
+# Terraform - Internet gateway 
+
+resource "aws_internet_gateway" "pathnexIGW" {
+	vpc_id = aws_vpc.pathnexvpc.id
+
+   	tags = {
+	   Name = "Pathnex-IGW"
+	}
+}
+
+
+# Kubernetes - Create ConfigMap
+
+apiversion: v1
+kind: ConfigMap
+metadata:
+	name: pathnex-confimap
+data:
+	app_mode: "Production"
+	welcome_msg: "Hello Pathnex"
+
+
+# Shell Script - Check CPU Load
+
+#!/bin/bash 
+
+LOAD=$(uptime | awk '{print $10}')
+
+echo "Current CPU Load: $LOAD"
+
+
+
+# Jenkins pipeline - Archive Artifacts
+
+pipeline {
+	agent any  
+	environment {
+	   INSTITUTE_NAME = "Pathnex"
+	}
+	stages {
+	   stage('Checkout') {
+		steps {
+		    git url: 'https://github.com/Pathnex/sample-java-app.git'	
+		   }
+	    }
+	   stage('Build') {
+	      steps {
+		sh 'mvn clean compile'
+		}
+	   }
+	   stage('Archive') {
+		steps {
+		   archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+		    }
+	   }
+      }	
+}
+
+
+# GitLab CI - Aritfacts
+
+stages:
+   - build
+
+build:
+   stage: build
+   image: maven:3.8.1-jdk-17
+   script:
+	- git clone https://github.com/Pathnex/sample-java-app.git
+	- cd sample-java-app
+	- mvn clean package
+   artifacts:
+	paths:
+	   - target/*.jar
+	expire_in: 1 week
+
+
+
+
+
+
+
+
+
