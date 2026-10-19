@@ -1,0 +1,285 @@
+# Day-29 - Real World Mini Project
+
+Complete the following:
+
+## Terraform
+
+resource "aws_security_group" "pathnexSG" {
+	name = "PathnexSG"
+	description = "Pathnex SG for SSH"
+	
+	ingress {
+	  from_port = 22
+	  to_port   = 22
+	  protocol  = "tcp"
+	  cidr_blocks = ["0.0.0.0/0"]
+	}
+
+	ingress {
+	  from_port = 80
+	  to_port   = 80
+	  protocol  = "tcp"
+	  cidr_blocks = ["0.0.0.0/0"]
+	}
+}
+
+
+resource "aws_key_pair" "Pathnex_key" {
+	key_name = "Pathnex-Key"
+	public_key = "ssh-rsa AAA.."
+}
+
+
+resource "aws_instance" "PathnexEC2" {
+	ami = "ami-uhenuendu15463728d3"
+	instance_type = "c5.xlarge"
+	vpc_security_group_ids = [aws_security_group.pathnexSG.id]
+	key_name = aws_key_pair.Pathnex_key.key_name
+
+	ebs_block_device {
+	  device_name = "/dev/sda1"
+	  volume_size = 30
+	  volume_type = "gp3"
+	}
+
+	tags = {
+	  Name = "Pathnex-EC2"
+	  Owner = "PathnexStudent"
+	}
+}
+
+output "public_ip" {
+  value = aws_ec2_instance.PathnexEC2.public_ip
+}
+
+
+
+# Ansible:
+- Install nginx
+- Deploy "Welcome to Pathnex" HTML page
+- Start & enable service
+
+---
+- name: Install Nginx on Pathnex Server
+  hosts: all
+  become: yes
+  
+  tasks:
+	- name: Install Nginx
+	  yum:
+	    name: nginx
+   	    state: present
+	- name: Deploy HTML Page
+	  copy:
+	  content: |
+	  <!DOCTYPE html>
+	  <html>
+	  <body>
+	  <h1> Welcome to Pathnex</h1>
+	  </body>
+	  </html>
+	  dest: /usr/nginx/html/index.html
+	  owner: root
+	  group: root
+	  mode: '0644'
+	- name: Start Nginx service
+	  service:
+	     name: nginx
+	     state: started
+	     enabled: yes
+
+
+
+
+# Kubernetes:
+- Create Deployment with PVC
+- Expose via NodePort
+
+# Create the PVC
+
+apiversion: v1
+kind: PersistentVolumeClaim
+metadata:
+   name: pathnex-pvc
+spec:
+  accessModes:
+     - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiversion: apps/v1
+kind: Deployment
+metadata:
+	name: pathnex-nginx
+spec:
+  replicas: 3
+  selector:
+    matchlabels:
+	app: pathnex-nginx
+  template:
+    metadata:
+	labels:
+	  app: pathnex-nginx
+   spec:
+      containers:
+	 - name: nginx 
+	   image: nginx:latest
+	   ports:
+	      - containerport: 80
+           volumeMounts:
+	      - name: nginx-storage
+	        mountPath: /usr/share/nginx/html
+      volumes:
+	- name: nginx-storage
+	  persistentVolumeClaim
+	     claimName: pathnex-pvc
+
+---
+apiversion: v1
+kind: service
+metadata:
+	name: pathnex-nodeport
+spec:
+  -Type: Nodeport
+   selector:
+      app: pathnex-nginx
+   ports:
+      port: 80
+      targetport: 80
+
+
+
+# Shell Script:
+
+#!/bin/bash 
+
+echo "$(top)"
+echo "$(free -h)"
+echo "$(df -h)"
+echo "$(hostname -I)"
+echo "$(ps | head -n 2)"
+	
+
+
+# Jenkins Pipeline:
+You will learn to **combine all tasks into a realistic Jenkins Pipeline** with proper stages and tags.
+
+pipeline {
+agent any
+
+  environment {
+    INSTITUTE_NAME = "Pathnex"
+    TEAM           = "DevOps"
+    ENV            = "prod"
+    PROJECT        = "Pathnex-Training"
+  }
+
+   stages {
+    stage('Infrastructure') {
+        steps {
+            echo "Creating Infrastructure..."
+
+            sh '''
+                terraform init
+                terraform validate
+                terraform plan
+                terraform apply -auto-approve
+            '''
+        }
+    }
+
+    stage('App Deployment') {
+        steps {
+            echo "Deploying Application..."
+
+            sh '''
+                ansible-playbook -i inventory ansible/nginx.yml
+
+                kubectl apply -f kubernetes/pvc.yaml
+                kubectl apply -f kubernetes/deployment.yaml
+                kubectl apply -f kubernetes/service.yaml
+            '''
+        }
+    }
+
+    stage('Monitoring Checks') {
+        steps {
+            echo "Running Monitoring Checks..."
+
+            sh '''
+                echo "$(top)"
+
+                echo "$(free -h)
+
+                echo "$(df -h)
+                
+                echo "$(hostname -I)
+
+                echo "$(ps | head -n 5)
+            '''
+ 	       }
+    	}
+    }
+
+    post {
+    success {
+        echo "Deployment Completed Successfully! of $INSTITUTE_NAME on $ENV for $TEAM and $PROJECT"
+    }
+
+    failure {
+        echo "Pathnex Deployment Failed! of $INSTITUTE_NAME on $ENV for $TEAM and $PROJECT"
+    }
+  }
+
+}
+
+}
+
+
+
+# GitLab CI:
+You will learn to **combine all tasks in a realistic GitLab CI pipeline**.
+
+stages:
+  - Infra
+  - app_deploy
+  - monitor
+
+varibales:
+    INSTITUTE_NAME = "Pathnex"
+    TEAM = "DevOps"
+    ENV = "prod"
+    PROJECT = "Pathnex-Training"
+
+Infra:
+   stage: Infra
+   script:
+	- echo "Creating Infrastructure of $INSTITUTE_NAME on $ENV for $TEAM and $PROJECT"
+	- terraform init 
+	- terraform validate
+	- terraform plan
+	- terraform apply -auto-approve
+  
+app_deploy:
+    stage: app_deploy
+    image: alpine:latest
+    script:
+	- echo "Deploying application on $ENV for $TEAM and $PROJECT"
+	- ansible-playbook -i inventory ansible/nginx.yml
+	- kubectl apply -f kubernetes/pvc.yaml
+	- kubectl apply -f kubernetes/deployment.yaml
+	- kubectl apply -f kubernetes/service.yaml
+
+monitor:
+    stage: monitor
+    image: alpine:latest
+    script:
+	- echo "$(free -h)"
+	- echo "$(df -h)"
+	- echo "$(hostname -I)"
+	- echo "$(ps | head -n 5)"
+
+
+
