@@ -1,0 +1,11 @@
+# Oct-Day-11
+
+Today started at 6 AM.
+Today i did ansible practical hands-on, creating servers using terraform 
+Login to jump server, did git clone of ansible repo and created two jump server
+and updated ansible host file and installed ansible apache application and started service.
+
+Also, watched CI/CD pipeline and did hands-on practical using github repo
+created infra using terraform and one of server used as a jump and using ansible installed jenkins,java,maven and dockersetup and allowed SG 8080 port and jenkins was accesible.
+
+
