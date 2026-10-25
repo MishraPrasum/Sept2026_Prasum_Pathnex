@@ -1,0 +1,10 @@
+# Day-Oct-10
+
+1. Joined Morning class for sometime.
+2. Performed practical and watched AgroCD july month video 
+3. Hands creating EKS and installing and implementing ArgoCD
+4. Performed terraform hands-on 
+
+ 
+
+
