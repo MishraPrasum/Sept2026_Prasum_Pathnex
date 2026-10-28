@@ -1,0 +1,123 @@
+# Day 12 - File content, RDS Skeleton, Rolling update, backup 
+
+# Ansible - Ensure file with content
+
+- name: create config file to file
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: Write content to file
+	  copy:
+	    dest: /etc/pathnex.conf
+	    content: |
+		welcome to Ansible playbook writing
+		Today is day 12 Oct 2026
+
+
+# Terraform - RDS skeleton
+
+resource "aws_db_instance" "PathnexRDS" {
+	allocated_storage	= 20
+	engine			= "mysql"
+	instance_class		= "db.t3.micro"
+	name			= "pathnex"
+	username		= "admin"
+	password		= "pathnex@2026"
+	skip_final_snapshot	= "true"
+}
+
+
+
+# kubernetes - Rolling update strategy
+
+apiversion: apps/v1
+kind: Deployment
+metadata:
+	name: pathnex-rolling
+	namespace: pathnex
+spec:
+   replicas: 3
+   strategy:	
+	type: RollingUpdate
+	rollingupdate:
+	   maxSurge: 1
+	   maxunavailable: 1
+   selector:
+     matchlabels:
+	app: pathnex-web
+   template:
+     metadata:
+	labels:
+	   app: pathnex-web
+
+     spec:
+	containers:
+	   - name: web
+	     image: nginx
+
+
+
+# Shell script - backup directory
+
+#!/bin/bash
+
+SOURCE="/var/log"
+DEST="/backup/prasum-$(date +%F).tar.gz"
+
+tar -czf $DEST $SOURCE
+echo "backup created at: $DEST"
+
+
+
+# Jenkins Pipeline — Multi-branch
+
+pipeline {
+	agent any
+	environment {
+	  INSTITUTE_NAME = "Pathnex"
+	}
+	stages{
+	  stage('Checkout') {
+	     steps {
+	        checkout scm  # Checks out the source code from repo configured for the pipeline
+		}
+	}
+	 stage('Build') {
+	    steps {
+		sh  'mvn clean compile'
+		}
+	}
+   }
+
+}
+
+
+
+# GitLab CI — Branch Specific Jobs
+
+stages:
+  - build
+
+build-main:
+	stage: build
+	image: maven:3.8.1-jdk-17
+	script:
+	   - mvn clean compile
+	only:
+	  - main
+
+build-dev:
+	stage: build
+	image: maven:3.8.1-jdk-17
+	script:
+	  - mvn clean compile
+	only:
+	  - dev
+
+
+
+
+
+
+

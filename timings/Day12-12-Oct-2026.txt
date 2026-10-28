@@ -1,0 +1,11 @@
+# Oct-Day12 
+
+Today morning, first i attended morning class for sometime.
+Did practical on prometheus and grafana
+Created infra using terraform with some modification in .tf files.
+Install and configured prometheus and grafana using ansible and generated traffic to see cpu/ram utilization on dashboard 
+
+Watched and did hands-on on ELK 
+Attended evening class
+
+Watched August month Ansible video
