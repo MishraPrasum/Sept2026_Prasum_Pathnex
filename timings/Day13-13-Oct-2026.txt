@@ -1,0 +1,13 @@
+# Oct Day13
+
+- Today I attended morning class at 7 AM 
+- Today I learned SRE, it was kind of revision for me.
+- Watched Augument Terraform video, still pending second part of it.
+- Planned to watch auguest month video of CI/CD and practical, once terraform is done.
+- After that Datadog/Prometheus/Grafana video + Practical
+
+
+Then only Kafka, SSL/TLS practical will be remains. 
+And video of Git/AWS/Docker of August month.
+
+
