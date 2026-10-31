@@ -1,0 +1,8 @@
+# Oct Day15 
+
+- Today morning i attended class
+- In morning class, we covered security tools
+- Then i completed Ci/CD pipeline video 
+- Got more clear idea about CI/CD and GitHub Action as well
+
+
