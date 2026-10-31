@@ -1,0 +1,9 @@
+# Oct Day14 
+
+- Today there was no morning for oct batch 
+- I continued watching August month video 
+- Watched CI/Cd pipeline video, made some notes out it.
+- practised gitlab CI/CD code for infrastructure that is terraform.
+- Still watching videos for remaining topics
+
+
