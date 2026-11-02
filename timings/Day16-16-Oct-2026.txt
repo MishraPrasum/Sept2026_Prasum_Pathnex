@@ -1,0 +1,8 @@
+# Oct Day16
+
+1. Today i watched and completed monitoring August video
+2. Created Infra using Terraform and Cluster.
+3. Installed Prom + Grafana + AlertManager 
+4. Troubleshoot issues related to Grafana in deep.
+5. Upgraded EKS controle plane and worker node.
+
