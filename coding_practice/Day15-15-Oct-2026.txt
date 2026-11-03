@@ -1,0 +1,124 @@
+# Oct-Day15
+
+# Ansible:
+
+- name: Install Java and set Java_Home
+  hosts: web_server
+  become: yes
+
+  tasks:
+	- name: Install Java
+	  yum:
+ 	     name: java-11-openjdk
+	     state: present
+	- name: Set Java_Home
+	  lineinfile:
+	      path: /etc/profile
+	      line: 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk'
+
+
+# Terraform - S3 bucket
+
+provider "aws" {
+	region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "PathnexS3" {
+	bucket = "Max_bucket"
+	
+	tags = {
+	 Name = "Max-Bucket"
+	}
+}
+
+
+# Kubernetes - Cronjob
+
+apiversion: batch/v1
+kind: Cronjob
+metadata:
+	name: pathnex-cronjob
+spec:
+   schedule: "/5 * * * *"
+   jobTemplate:
+	spec:
+	  template:
+	    spec:
+	      containers:
+		- name: job
+		  image: busybox
+		  command: ["sh", "-c", "echo Pathnex Cronjob running"]
+	      restartPolicy: onFailure
+
+
+
+# Shell Script — Read File Line-by-Line
+
+#!/bin/bash
+
+FILE="/etc/passwd"
+
+while read line; do
+	echo "Line: $line"
+done < $FILE
+
+
+#Jenkins Pipeline — Slack Notification
+
+pipeline {
+	agent any
+	environment {
+	   INTITUTE_NAME = "Pathnex"
+	   SLACK_CHANNEL = "#devops"	
+	}
+	stages {
+	   stage('Checkout') {
+	     steps {
+		git branch: 'main', url: 'https://github.com/mishraprasum/terragrunt.git'		
+		}
+	  }
+	  stage('Build') {
+	     steps {
+		steps {
+		   sh 'mvn clean package'
+			}
+		}
+	 }
+	 post {
+		success {
+		    slackSend(channel: "#SLACL_CHANNEL", message: "Success: $INSTITUTE_NAME Build #${env.build_number}")
+		}
+	 	failure {
+		    slackSend(channel: "#SLACK_CHANNEL", message: "Failure: $INSTITUTE_NAME Build #${env.build_number}")
+		}
+	  }
+     }
+
+}
+
+
+
+
+#GitLab CI — Slack Notification
+
+stages:
+  - build
+
+variables:
+    INSTITUTE_NAME:  "Pathnex"
+    SLACK_WEBHOOK:  "https://hooks.slack.com/services/TXXXXXXXX/BXXXXXXXX/XXXXXXXXXXXXXXXX"
+
+build:
+    stage:build
+    image: maven:3.8.1-jdk17
+    script:
+	- git clone https://github.com/mishraprasum/Gen-AI.git
+	- cd  Gen-AI
+	- mvn clean package
+	- curl -X POST -H 'Content-type: application/json' --data '{"text":"Build success for Pathnex"}' $SLACK_WEBHOOK
+	
+
+
+
+
+
