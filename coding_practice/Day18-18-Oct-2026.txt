@@ -1,0 +1,106 @@
+#Day18 - Facts, Variables, Affinity, Log Archiving
+
+# Ansible - Ansible facts 
+
+- name: Show system facts for pathnex
+  hosts: all
+  become: yes
+
+  tasks:
+	- name: print OS info
+	  debug
+	    vars: ansible_facts['os family']
+	- name: Print IP address
+	  debug
+	    vars: ansible_facts['default_ipv4']['address']
+
+
+# Terraform — Variables, Outputs, tfvars
+
+varibale.tf
+
+varibales "instance_type" {
+	default = "c6a.12xlarge"
+}
+
+output "pathnex_ip" {
+	value = aws_instance.pathnexServer.public_ip
+}
+
+
+
+# Kubernetes - Node Affinity 
+
+apiversion: v1
+kind: pod
+metadata:
+	name: pathnex-pod
+spec:
+  affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+  	nodeSelectorTerms:
+	   matchExpressions:
+	      - key: disktype
+	        operator: in
+	 	values:
+	    	  - ssd
+  containers:
+     - name: web
+       image: nginx
+
+
+
+# Shell Script: Archive log
+
+#!/bin/bash
+
+tar -czf /backup/pathnex-log-$(date +%F).tar.gz /var/log
+
+echo "Logs archived"
+
+
+# Jenkins pipeline
+
+pipeline {
+	agent any
+	environment {
+	   INSTITUTE_NAME = "Pathnex"
+	}
+	stages {
+	   stage('Deploy') {
+	     steps {
+		script {
+		    try {
+			sh 'echo "Deploying $INSTITUTE_NAME application"'
+			sh 'exit 1'
+		    } catch (Exception e) {
+			echo "Deployment Failed. Rolling back $INSTITUTE_NAME application"
+			}
+		}
+	    }
+	 }
+     }
+}
+
+
+
+# GitLab - Rollback
+
+stages:
+   - deploy
+
+variables:
+   INSTITUTE_NAME = "pathnex"
+deploy:
+	stage: deploy
+	image: alpine:latest
+	script:
+	   - echo "Deploying $INSTITUTE_NAME application"
+	   - exit 1
+        after_script:
+	   - echo "Deployment failed. Rolling back $INSTITUTE_NAME application"
+
+
+
+
