@@ -1,0 +1,9 @@
+# Oct Day17
+
+- Today i watched and did hands-on practice on SSL/TLS cerificate.
+- Installed using terrform and using user_data block to configure cert inside EC2 instance.
+- Did troublshooting related to VPC and SSH connection.
+- Watched September month Datadog video and did practical
+- Also watched video of SSL/TLS sept month and did practical.
+
+- Planning to start Sept month Kubernetes video and hands-on
